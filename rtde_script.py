@@ -3,7 +3,7 @@ import json
 import math
 
 # Postavite IP adresu robota
-ROBOT_IP = "192.168.80.128"
+ROBOT_IP = "192.168.40.50"
 
 def get_robot_data():
     try:

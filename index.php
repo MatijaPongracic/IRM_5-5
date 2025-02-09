@@ -185,32 +185,32 @@ body {
   <div id="neg_zglob_1">
     <label for="pomak_z1_neg">J1 [°]</label>
     <input type="text" name="pomak_z1_neg" id="pomak_z1_neg" 
-           value="<?php echo isset($_POST['pomak_z1_neg']) ? $_POST['pomak_z1_neg'] : '-90'; ?>" size="5" />
+           value="<?php echo isset($_POST['pomak_z1_neg']) ? $_POST['pomak_z1_neg'] : '30'; ?>" size="5" />
   </div>
   <div id="neg_zglob_2">
     <label for="pomak_z2_neg">J2 [°]</label>
     <input type="text" name="pomak_z2_neg" id="pomak_z2_neg" 
-           value="<?php echo isset($_POST['pomak_z2_neg']) ? $_POST['pomak_z2_neg'] : '-90'; ?>" size="5" />
+           value="<?php echo isset($_POST['pomak_z2_neg']) ? $_POST['pomak_z2_neg'] : '-60'; ?>" size="5" />
   </div>
   <div id="neg_zglob_3">
     <label for="pomak_z3_neg">J3 [°]</label>
     <input type="text" name="pomak_z3_neg" id="pomak_z3_neg" 
-           value="<?php echo isset($_POST['pomak_z3_neg']) ? $_POST['pomak_z3_neg'] : '-120'; ?>" size="5" />
+           value="<?php echo isset($_POST['pomak_z3_neg']) ? $_POST['pomak_z3_neg'] : '60'; ?>" size="5" />
   </div>
   <div id="neg_zglob_4">
     <label for="pomak_z4_neg">J4 [°]</label>
     <input type="text" name="pomak_z4_neg" id="pomak_z4_neg" 
-           value="<?php echo isset($_POST['pomak_z4_neg']) ? $_POST['pomak_z4_neg'] : '-45'; ?>" size="5" />
+           value="<?php echo isset($_POST['pomak_z4_neg']) ? $_POST['pomak_z4_neg'] : '-120'; ?>" size="5" />
   </div>
   <div id="neg_zglob_5">
     <label for="pomak_z5_neg">J5 [°]</label>
     <input type="text" name="pomak_z5_neg" id="pomak_z5_neg" 
-           value="<?php echo isset($_POST['pomak_z5_neg']) ? $_POST['pomak_z5_neg'] : '90'; ?>" size="5" />
+           value="<?php echo isset($_POST['pomak_z5_neg']) ? $_POST['pomak_z5_neg'] : '-75'; ?>" size="5" />
   </div>
   <div id="neg_zglob_6">
     <label for="pomak_z6_neg">J6 [°]</label>
     <input type="text" name="pomak_z6_neg" id="pomak_z6_neg" 
-           value="<?php echo isset($_POST['pomak_z6_neg']) ? $_POST['pomak_z6_neg'] : '0'; ?>" size="5" />
+           value="<?php echo isset($_POST['pomak_z6_neg']) ? $_POST['pomak_z6_neg'] : '120'; ?>" size="5" />
   </div>
   <input type="hidden" name="naredba" value="200" />
   <button type="submit" id="postavi_zglobove">SET</button>
@@ -221,27 +221,27 @@ body {
   <div id="x">
     <label for="pos1">X [mm]</label>
     <input type="text" name="pos1" id="pos1" 
-           value="<?php echo isset($_POST['pos1']) ? $_POST['pos1'] : '-140'; ?>" size="5" />
+           value="<?php echo isset($_POST['pos1']) ? $_POST['pos1'] : '-350'; ?>" size="5" />
   </div>
   <div id="y">
     <label for="pos2">Y [mm]</label>
     <input type="text" name="pos2" id="pos2" 
-           value="<?php echo isset($_POST['pos2']) ? $_POST['pos2'] : '-290'; ?>" size="5" />
+           value="<?php echo isset($_POST['pos2']) ? $_POST['pos2'] : '-420'; ?>" size="5" />
   </div>
   <div id="z">
     <label for="pos3">Z [mm]</label>
     <input type="text" name="pos3" id="pos3" 
-           value="<?php echo isset($_POST['pos3']) ? $_POST['pos3'] : '180'; ?>" size="5" />
+           value="<?php echo isset($_POST['pos3']) ? $_POST['pos3'] : '220'; ?>" size="5" />
   </div>
   <div id="rx">
     <label for="pos4">RX [°]</label>
     <input type="text" name="pos4" id="pos4" 
-           value="<?php echo isset($_POST['pos4']) ? $_POST['pos4'] : '0'; ?>" size="5" />
+           value="<?php echo isset($_POST['pos4']) ? $_POST['pos4'] : '270'; ?>" size="5" />
   </div>
   <div id="ry">
     <label for="pos5">RY [°]</label>
     <input type="text" name="pos5" id="pos5" 
-           value="<?php echo isset($_POST['pos5']) ? $_POST['pos5'] : '180'; ?>" size="5" />
+           value="<?php echo isset($_POST['pos5']) ? $_POST['pos5'] : '-180'; ?>" size="5" />
   </div>
   <div id="rz">
     <label for="pos6">RZ [°]</label>
@@ -257,7 +257,7 @@ body {
 <div id="program_load">
   <form action="index.php?naredba=400" method="post">
     <input type="submit" name="ProgLoad" value="LOAD PROGRAM" />
-    <!-- Padajući izbornik -->
+
     <select name="naziv_programa_select" id="naziv_programa_select" onchange="updateTextInput()">
       <option value="">-- Choose a program --</option>
       <option value="program1">program1</option>
@@ -265,7 +265,7 @@ body {
       <option value="novi_program">novi_program</option>
     </select>
 
-    <!-- Tekstualno polje -->
+
     <input type="text" name="naziv_programa" id="naziv_programa" size="16" />
   </form>
 </div>
@@ -329,41 +329,31 @@ body {
 
 <?php
 function getRobotData() {
-    // Pokrenite Python skriptu i uhvatite njen izlaz
+    // Pokrenite Python skripte i dohvacanje izlaza
     $output = shell_exec('python rtde_script.py');
     
-    // Zabeležite Python izlaz
     error_log("Python izlaz: " . $output);
 
     if ($output === null) {
         die("Greška: Python skripta nije vratila odgovor.");
     }
 
-    // Dekodirajte JSON odgovor
     $data = json_decode($output, true);
 
-    // Proverite da li je JSON validan
     if ($data === null) {
         error_log("Nevalidan JSON: $output");
         die("Greška: Nevalidan JSON odgovor iz Python skripte.");
     }
 
-    // Pripremite podatke za prikaz
     $tcp_pose = isset($data['tcp_pose']) && is_array($data['tcp_pose']) ? implode(", ", $data['tcp_pose']) : "Nema podataka";
     $joint_positions = isset($data['joint_positions']) && is_array($data['joint_positions']) ? implode(", ", $data['joint_positions']) : "Nema podataka";
 
-    // Dodajte logiku za komunikaciju sa Dashboard serverom
     $dashboard_response = "Nije moguce povezati se sa Dashboard serverom.";
-    $socket = fsockopen('192.168.80.128', 29999, $errno, $errstr, 5);
+    $socket = fsockopen('192.168.40.50', 29999, $errno, $errstr, 5);
 
     if ($socket) {
-        // Pročitajte poruku dobrodošlice
         fgets($socket);
-
-        // Pošaljite naredbu "running\n"
         fwrite($socket, "running\n");
-
-        // Pročitajte odgovor
         $dashboard_response = trim(fgets($socket));
 		if($dashboard_response == "Program running: true"){
 			fwrite($socket, "get loaded program\n");
@@ -373,7 +363,6 @@ function getRobotData() {
 		elseif($dashboard_response == "Program running: false"){
 			$dashboard_response = "No program running";
 		}
-        // Zatvorite socket
         fclose($socket);
     } else {
         error_log("Socket greška ($errno): $errstr");
@@ -382,7 +371,6 @@ function getRobotData() {
     return "TCP pozicija: [$tcp_pose]\nZglobne pozicije: [$joint_positions]\nStatus robota: $dashboard_response";
 }
 
-// Proverite da li je zahtev AJAX
 if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
     echo getRobotData();
     exit;
@@ -390,31 +378,31 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 ?>
 
 <script>
-    // Funkcija za dohvat podataka i ažuriranje tablice
+    // Funkcija za dohvat podataka i azuriranje tablice
 	function updateTable() {
-		// Napravi AJAX zahtjev
+		// AJAX zahtjev
 		fetch('index.php?ajax=true')
 			.then(response => {
 				if (!response.ok) {
 					throw new Error('Greška pri dohvaćanju podataka');
 				}
-				return response.text(); // Vratimo tekstualni odgovor
+				return response.text();
 			})
 			.then(data => {
-				// Parsiraj tekstualni odgovor (TCP pozicija i zglobne pozicije)
+				// Parsiranje tekstualnog odgovora (TCP pozicija i zglobne pozicije)
 				const tcpRegex = /TCP pozicija: \[(.*?)\]/;
 				const jointRegex = /Zglobne pozicije: \[(.*?)\]/;
-				const dashboardRegex = /Status robota: (.*)/;  // Regex za dohvat statusa robota
+				const dashboardRegex = /Status robota: (.*)/;
 
 				const tcpMatch = data.match(tcpRegex);
 				const jointMatch = data.match(jointRegex);
-				const dashboardMatch = data.match(dashboardRegex);  // Dohvat statusa
+				const dashboardMatch = data.match(dashboardRegex);
 
 				if (tcpMatch && jointMatch) {
-					const tcpPose = tcpMatch[1].split(', '); // Pretvori string u niz
+					const tcpPose = tcpMatch[1].split(', ');
 					const jointPositions = jointMatch[1].split(', ');
 
-					// Ažuriraj vrijednosti u tablici
+					// Azuriranje vrijednosti u tablici
 					document.getElementById('x-pos').innerText = tcpPose[0] || '';
 					document.getElementById('y-pos').innerText = tcpPose[1] || '';
 					document.getElementById('z-pos').innerText = tcpPose[2] || '';
@@ -432,7 +420,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 					console.error('Neispravan format odgovora:', data);
 				}
 
-				// Ako je dashboard status dostupan, ažuriraj najdonji redak
 				if (dashboardMatch) {
 					const dashboardResponse = dashboardMatch[1] || "Nema podataka";
 					document.getElementById('status-pos').innerText = dashboardResponse;
@@ -443,13 +430,12 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			});
 	}
 
-	// Pozivaj funkciju svaku sekundu
 	setInterval(updateTable, 100);
 
     function log_input(text) {
         const logBox = document.getElementById("input_text");
-        logBox.value += "\n" + text; // Dodaje tekst u novi red
-        logBox.scrollTop = logBox.scrollHeight; // Automatski skrol na dno
+        logBox.value += "\n" + text; // Dodavanje teksta u novi red
+        logBox.scrollTop = logBox.scrollHeight;
     }
 </script>
 
@@ -467,8 +453,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
  	$val = isset($_GET['naredba']) ? $_GET['naredba'] : 0;
 		$trenutno_vrijeme = date("d-m-y H:i:s");
 		if($val == 100){
-			$pomak_x_neg= $_REQUEST['pomak_x_neg'] / 1000;
 			$log_pomak= $_REQUEST['pomak_x_neg'];
+			if ($log_pomak > 100) {
+				$log_pomak = 100;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_x_neg= $log_pomak / 1000;
 			$program_x_neg = "def program_x_neg():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[0]=poz_tcp2[0]-".$pomak_x_neg."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost - X = " . addslashes($log_pomak) . " mm');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost - X = " . addslashes($log_pomak) . " mm\n";
@@ -476,8 +468,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_x_neg;
 			} 
 		elseif($val == 101){
-			$pomak_x_poz= $_REQUEST['pomak_x_poz'] / 1000;
 			$log_pomak= $_REQUEST['pomak_x_poz'];
+			if ($log_pomak > 100) {
+				$log_pomak = 100;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_x_poz= $log_pomak / 1000;
 			$program_x_poz = "def program_x_poz():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[0]=poz_tcp2[0]+".$pomak_x_poz."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost + X = " . addslashes($log_pomak) . " mm');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost + X = " . addslashes($log_pomak) . " mm\n";
@@ -485,8 +483,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_x_poz;
 			} 
 		elseif($val == 102){
-			$pomak_y_neg= $_REQUEST['pomak_y_neg'] / 1000;
 			$log_pomak= $_REQUEST['pomak_y_neg'];
+			if ($log_pomak > 100) {
+				$log_pomak = 100;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_y_neg= $log_pomak / 1000;
 			$program_y_neg = "def program_y_neg():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[1]=poz_tcp2[1]-".$pomak_y_neg."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost - Y = " . addslashes($log_pomak) . " mm');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost - Y = " . addslashes($log_pomak) . " mm\n";
@@ -494,8 +498,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_y_neg;
 			} 
 		elseif($val == 103){
-			$pomak_y_poz= $_REQUEST['pomak_y_poz'] / 1000;
 			$log_pomak= $_REQUEST['pomak_y_poz'];
+			if ($log_pomak > 100) {
+				$log_pomak = 100;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_y_poz= $log_pomak / 1000;
 			$program_y_poz = "def program_y_poz():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[1]=poz_tcp2[1]+".$pomak_y_poz."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost + Y = " . addslashes($log_pomak) . " mm');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost + Y = " . addslashes($log_pomak) . " mm\n";
@@ -503,8 +513,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_y_poz;
 			} 
 		elseif($val == 104){
-			$pomak_z_neg= $_REQUEST['pomak_z_neg'] / 1000;
 			$log_pomak= $_REQUEST['pomak_z_neg'];
+			if ($log_pomak > 100) {
+				$log_pomak = 100;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_z_neg= $log_pomak / 1000;
 			$program_z_neg = "def program_z_neg():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[2]=poz_tcp2[2]-".$pomak_z_neg."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost - Z = " . addslashes($log_pomak) . " mm');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost - Z = " . addslashes($log_pomak) . " mm\n";
@@ -512,8 +528,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_z_neg;
 			} 
 		elseif($val == 105){
-			$pomak_z_poz= $_REQUEST['pomak_z_poz'] / 1000;
 			$log_pomak= $_REQUEST['pomak_z_poz'];
+			if ($log_pomak > 100) {
+				$log_pomak = 100;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_z_poz= $log_pomak / 1000;
 			$program_z_poz = "def program_z_poz():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[2]=poz_tcp2[2]+".$pomak_z_poz."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost + Z = " . addslashes($log_pomak) . " mm');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Translacija za vrijednost + Z = " . addslashes($log_pomak) . " mm\n";
@@ -521,8 +543,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_z_poz;
 			} 		
 		elseif($val == 106){
-			$pomak_rx_neg= $_REQUEST['pomak_rx_neg'] * (M_PI / 180);
 			$log_pomak= $_REQUEST['pomak_rx_neg'];
+			if ($log_pomak > 45) {
+				$log_pomak = 45;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_rx_neg= $log_pomak * (M_PI / 180);
 			$program_rx_neg = "def program_rx_neg():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[3]=poz_tcp2[3]-".$pomak_rx_neg."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost - RX = " . addslashes($log_pomak) . "°');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost - RX = " . addslashes($log_pomak) . "°\n";
@@ -530,8 +558,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_rx_neg;
 			} 
 		elseif($val == 107){
-			$pomak_rx_poz= $_REQUEST['pomak_rx_poz'] * (M_PI / 180);
 			$log_pomak= $_REQUEST['pomak_rx_poz'];
+			if ($log_pomak > 45) {
+				$log_pomak = 45;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_rx_poz= $log_pomak * (M_PI / 180);
 			$program_rx_poz = "def program_rx_poz():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[3]=poz_tcp2[3]+".$pomak_rx_poz."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost + RX = " . addslashes($log_pomak) . "°');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost + RX = " . addslashes($log_pomak) . "°\n";
@@ -539,8 +573,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_rx_poz;
 			} 	
 		elseif($val == 108){
-			$pomak_ry_neg= $_REQUEST['pomak_ry_neg'] * (M_PI / 180);
 			$log_pomak= $_REQUEST['pomak_ry_neg'];
+			if ($log_pomak > 45) {
+				$log_pomak = 45;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_ry_neg= $log_pomak * (M_PI / 180);
 			$program_ry_neg = "def program_ry_neg():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[4]=poz_tcp2[4]-".$pomak_ry_neg."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost - RY = " . addslashes($log_pomak) . "°');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost - RY = " . addslashes($log_pomak) . "°\n";
@@ -548,8 +588,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_ry_neg;
 			} 
 		elseif($val == 109){
-			$pomak_ry_poz= $_REQUEST['pomak_ry_poz'] * (M_PI / 180);
 			$log_pomak= $_REQUEST['pomak_ry_poz'];
+			if ($log_pomak > 45) {
+				$log_pomak = 45;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_ry_poz= $log_pomak * (M_PI / 180);
 			$program_ry_poz = "def program_ry_poz():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[4]=poz_tcp2[4]+".$pomak_ry_poz."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost + RY = " . addslashes($log_pomak) . "°');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost + RY = " . addslashes($log_pomak) . "°\n";
@@ -557,8 +603,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_ry_poz;
 			}
 		elseif($val == 110){
-			$pomak_rz_neg= $_REQUEST['pomak_rz_neg'] * (M_PI / 180);
 			$log_pomak= $_REQUEST['pomak_rz_neg'];
+			if ($log_pomak > 45) {
+				$log_pomak = 45;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_rz_neg= $log_pomak * (M_PI / 180);
 			$program_rz_neg = "def program_rz_neg():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[5]=poz_tcp2[5]-".$pomak_rz_neg."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost - RZ = " . addslashes($log_pomak) . "°');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost - RZ = " . addslashes($log_pomak) . "°\n";
@@ -566,8 +618,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			$message=$program_rz_neg;
 			} 
 		elseif($val == 111){
-			$pomak_rz_poz= $_REQUEST['pomak_rz_poz'] * (M_PI / 180);
-			$log_pomak = $_REQUEST['pomak_rz_poz'];
+			$log_pomak= $_REQUEST['pomak_rz_poz'];
+			if ($log_pomak > 45) {
+				$log_pomak = 45;
+			}
+			elseif ($log_pomak < 0) {
+				$log_pomak = 0;
+			}
+			$pomak_rz_poz= $log_pomak * (M_PI / 180);
 			$program_rz_poz = "def program_rz_poz():\n  poz_tcp=get_actual_tcp_pose()\n  poz_tcp2=poz_tcp\n  poz_tcp2[5]=poz_tcp2[5]+".$pomak_rz_poz."\n  movel(poz_tcp2,a=1,v=1,t=0,r=0)\nend\n";
 			echo "<script>log_input('" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost + RZ = " . addslashes($log_pomak) . "°');</script>";
 			$novi_tekst = "" . addslashes($trenutno_vrijeme) . " - Rotacija za vrijednost + RZ = " . addslashes($log_pomak) . "°\n";
@@ -641,11 +699,10 @@ if (isset($_GET['ajax']) && $_GET['ajax'] === 'true') {
 			}
 		} 
 			
-		//---------------------------Slanje poruke na server port 30002 omogućava direktno upravljanje robotom 
 $minInterval = 1;
 $lastSendTime = 0;
 if($val != 0 AND $val != 400 AND $val != 401 AND $val != 402) {
-	$currentTime = microtime(true); // Trenutno vrijeme s decimalama
+	$currentTime = microtime(true);
     if (($currentTime - $lastSendTime) >= $minInterval) {
 					if(!($sock = socket_create(AF_INET, SOCK_STREAM, 0))) {
 						$errorcode = socket_last_error();
@@ -653,7 +710,7 @@ if($val != 0 AND $val != 400 AND $val != 401 AND $val != 402) {
 						die("Couldn't create socket: [$errorcode] $errormsg \n");
 					}
 					
-					if(!socket_connect($sock , '192.168.80.128' , 30002)) {
+					if(!socket_connect($sock , '192.168.40.50' , 30002)) {
 						$errorcode = socket_last_error();
 						$errormsg = socket_strerror($errorcode);
 						die("Could not connect: [$errorcode] $errormsg \n");
@@ -671,7 +728,7 @@ if($val != 0 AND $val != 400 AND $val != 401 AND $val != 402) {
 }
 
 if($val == 400 OR $val == 401 OR $val == 402) {
-	$currentTime = microtime(true); // Trenutno vrijeme s decimalama
+	$currentTime = microtime(true);
     if (($currentTime - $lastSendTime) >= $minInterval) {
 					if(!($sock = socket_create(AF_INET, SOCK_STREAM, 0))) {
 						$errorcode = socket_last_error();
@@ -679,7 +736,7 @@ if($val == 400 OR $val == 401 OR $val == 402) {
 						die("Couldn't create socket: [$errorcode] $errormsg \n");
 					}
 					
-					if(!socket_connect($sock , '192.168.80.128' , 29999)) {
+					if(!socket_connect($sock , '192.168.40.50' , 29999)) {
 						$errorcode = socket_last_error();
 						$errormsg = socket_strerror($errorcode);
 						die("Could not connect: [$errorcode] $errormsg \n");
